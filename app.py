@@ -10,6 +10,7 @@ from sklearn.preprocessing import StandardScaler
 app = Flask(__name__)
 
 DATA_PATH = "air_quality.csv"
+MAX_DATA_ROWS = 20_000
 PRSA_PATH = os.path.join(
     "Dataset",
     "PRSA_Data_20130301-20170228",
@@ -88,7 +89,7 @@ def aqi_category(aqi):
 
 
 def load_legacy_sensor_data():
-    raw = pd.read_csv(DATA_PATH)
+    raw = pd.read_csv(DATA_PATH, nrows=MAX_DATA_ROWS)
     raw["datetime"] = pd.NaT
     raw["station"] = raw["City"]
     raw["PM2.5"] = raw["PM2.5 AQI Value"]
@@ -108,16 +109,18 @@ def load_legacy_sensor_data():
 
 
 def load_prsa_sensor_weather_data():
-    frames = []
-    for path in sorted(glob(PRSA_PATH)):
-        frame = pd.read_csv(path)
-        frame["source_file"] = os.path.basename(path)
-        frames.append(frame)
-
-    if not frames:
+    paths = sorted(glob(PRSA_PATH))
+    if not paths:
         raise FileNotFoundError(
             "No air-quality feed found. Expected air_quality.csv or PRSA station CSVs."
         )
+
+    rows_per_file = max(1, MAX_DATA_ROWS // len(paths))
+    frames = []
+    for path in paths:
+        frame = pd.read_csv(path, nrows=rows_per_file)
+        frame["source_file"] = os.path.basename(path)
+        frames.append(frame)
 
     raw = pd.concat(frames, ignore_index=True)
     raw["datetime"] = pd.to_datetime(
