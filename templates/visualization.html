@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Source Profiles</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Source Profiles</h1>
+
+    <p>Compact summaries from the currently ingested sensor and weather feed.</p>
+
+</header>
+
+
+<div class="container">
+
+<div class="chart-grid">
+
+    <div class="chart-card">
+
+        <h2>Mean Pollutant AQI</h2>
+
+        <div class="table-container">
+            {{ pollutant_means | safe }}
+        </div>
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <h2>Top Stations by Mean AQI</h2>
+
+        <div class="table-container">
+            {{ top_stations | safe }}
+        </div>
+
+    </div>
+
+</div>
+
+
+<a href="/" class="button">
+
+Back to Home
+
+</a>
+
+</div>
+
+</body>
+
+</html>

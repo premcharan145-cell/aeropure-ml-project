@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.venv_old/
+pip_cache/
+temp/
+mlruns/
+mlflow.db
+.env
+.env.*
+!.env.example
+Dataset/
+outputs/
+.idea/

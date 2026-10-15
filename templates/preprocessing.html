@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Week 2 Preprocessing Pipeline</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Week 2 Preprocessing Pipeline</h1>
+
+    <p>
+        Validation, cleaning, target building, and leakage-safe feature scaling.
+    </p>
+
+</header>
+
+
+<div class="container">
+
+<section>
+
+<h2>Preprocessing Steps</h2>
+
+<div class="steps">
+
+<div class="step">
+<h3>Missing Values</h3>
+<p>
+{{ missing_values }} raw missing cells are
+filled with station-aware numeric values.
+</p>
+</div>
+
+
+<div class="step">
+
+<h3>Duplicate Removal</h3>
+
+<p>
+Duplicates removed:
+<strong>{{ duplicates }}</strong>
+</p>
+
+</div>
+
+
+<div class="step">
+
+<h3>Feature Selection</h3>
+
+<p>
+Selected pollutant and location fields;
+AQI is kept as target, not as a model input.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<h3>Feature Scaling</h3>
+
+<p>
+StandardScaler was applied to
+numeric model features.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Validation Checks</h2>
+
+<div class="table-container">
+
+{{ validation | safe }}
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Model-Ready Preview</h2>
+
+<div class="table-container">
+
+{{ data | safe }}
+
+</div>
+
+</section>
+
+
+<a href="/" class="button">
+
+Back to Home
+
+</a>
+
+</div>
+
+</body>
+
+</html>
+
